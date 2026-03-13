@@ -11,7 +11,7 @@
 # Поддерживаемые: zh_CN (Упр. Китайский), en_US (Английский), ru_RU (Русский)
 language: "en_US"
 
-# MSPT (毫秒每刻) 监控配置 / MSPT Monitoring Configuration / Настройка монитора МСЗТ (Миллисекунд за тик)
+# MSPT (毫秒每刻) 监控配置 / MSPT Monitoring Configuration / Настройка монитора MSPT (Миллисекунд за тик)
 mspt:
   enabled: true
   interval: 100  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
@@ -29,7 +29,7 @@ item:
   interval: 60  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
   notification-limit: 80  # 区块内掉落物数量上限 / Item drop count limit per chunk / Лимит валяющихся предметов на чанк
 
-# 冷却配置 / Cooldown Configuration / Настройка задержки ("Перезарядки")
+# 冷却配置 / Cooldown Configuration / Настройка задержки
 cooldown:
   duration: 5  # 通知冷却时间，单位分钟 / Notification cooldown in minutes / Задержка оповещений в минутах
 
@@ -74,7 +74,7 @@ messages:
     disabled_message: "§c[ChunkMonitor] Plugin disabled"
 
   ru_RU:
-    # Оповещающее сообщение МСЗТ
+    # Оповещающее сообщение MSPT
     mspt_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cМСЗТ: %value% мс §r(Лимит: %limit% мс)"
 
     # Оповещающее сообщение Количество Сущностей
