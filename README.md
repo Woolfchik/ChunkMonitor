@@ -24,50 +24,44 @@ A Minecraft server block MSPT usage, dropped items, and entity monitoring plugin
 ## Configuration File
 
 ```yaml
-# 区块监控插件配置文件
 # Chunk Monitor Plugin Configuration File
-# Файл конфигурации плагина Chunk Monitor
-# 所有时间间隔单位为 Ticks (1秒 = 20 Ticks)
 # All time intervals are in Ticks (1 second = 20 Ticks)
-# Все временные интервалы указаны в Тиках (1 секунда = 20 тиков)
 
-# 语言设置 / Language Setting / Настройка языка
-# 支持: zh_CN (简体中文), en_US (English)
+# Language Setting
 # Supported: zh_CN (Simplified Chinese), en_US (English)
-# Поддерживаемые: zh_CN (Упр. Китайский), en_US (Английский), ru_RU (Русский)
 language: "en_US"
 
-# MSPT (毫秒每刻) 监控配置 / MSPT Monitoring Configuration / Настройка монитора МСЗТ (Миллисекунд за тик)
+# MSPT Monitoring Configuration
 mspt:
   enabled: true
-  interval: 100  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 50.0  # 通知上限，单位毫秒 / Notification limit in milliseconds / Лимит миллисекунд
+  interval: 100  # Detection interval in Ticks
+  notification-limit: 50.0  # Notification limit in milliseconds
 
-# 实体数量监控配置 / Entity Count Monitoring Configuration / Настройка монитора Числа Сущностей
+# Entity Count Monitoring Configuration
 entity:
   enabled: true
-  interval: 80  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 70  # 区块内实体数量上限 / Entity count limit per chunk / Лимит числа сущностей на чанк
+  interval: 80  # Detection interval in Ticks
+  notification-limit: 70  # Entity count limit per chunk
 
-# 掉落物数量监控配置 / Item Drop Monitoring Configuration / Настройка монитора Лежащих предметов
+# Item Drop Monitoring Configuration
 item:
   enabled: true
-  interval: 60  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 80  # 区块内掉落物数量上限 / Item drop count limit per chunk / Лимит валяющихся предметов на чанк
+  interval: 60  # Detection interval in Ticks
+  notification-limit: 80  # Item drop count limit per chunk
 
-# 冷却配置 / Cooldown Configuration / Настройка задержки ("Перезарядки")
+# Cooldown Configuration
 cooldown:
-  duration: 5  # 通知冷却时间，单位分钟 / Notification cooldown in minutes / Задержка оповещений в минутах
+  duration: 5  # Notification cooldown in minutes
 
-# 通知配置 / Notification Configuration / Настройка оповещений
+# Notification Configuration
 notification:
-  broadcast: false  # 是否向全服通知 / Send notification to all players / Отправлять оповещения всем игрокам
-  console: true  # 是否向控制台通知 / Send notification to console / Отправлять оповещения в консоль
-  discord: true # 发送通知至 discord / Send notification to discord / Отправлять оповещения в discord
-  discord-webhook: "" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
-  show-coordinates: true  # 是否显示坐标范围 / Show coordinate range / Показывать "разброс координат"
+  broadcast: false  # Send notification to all players
+  console: true  # Send notification to console
+  discord: true # Send notification to discord
+  discord-webhook: "" # Discord webhook url
+  show-coordinates: true  # Show coordinate range
 
-# 消息配置 / Message Configuration / Настройка сообщений
+# Message Configuration
 messages:
   zh_CN:
     # MSPT 通知消息
