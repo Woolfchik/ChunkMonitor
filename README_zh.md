@@ -1,6 +1,6 @@
 # ChunkMonitor - 区块性能监控插件
 
-**其他语言版本: [English](README.md)，[中文](README_zh.md)。**
+**其他语言版本: [English](README.md)，[中文](README_zh.md)，[Russian](README_ru.md)。**
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -18,10 +18,10 @@ PS：为了搭配MSMP_QQBot开发的
 
 ### 通知系统
 
-- **双向通知** - 支持公屏通知和控制台通知独立控制
+- **多通道通知** - 支持公屏通知、控制台通知和 Discord 通知独立控制（通过 Webhook）
 - **冷却机制** - 同一区块 5 分钟内只通知一次，防止刷屏
 - **精确定位** - 显示世界名称、区块坐标和具体方块坐标范围
-- **多语言支持** - 内置中英文，可自定义消息模板
+- **多语言支持** - 内置中文、英文和俄语，可自定义消息模板
 
 ## 配置文件
 
@@ -32,7 +32,7 @@ PS：为了搭配MSMP_QQBot开发的
 
 # 语言设置
 # 支持: zh_CN (简体中文), en_US (English)
-language: "zh_CN"
+language: "en_US"
 
 # MSPT (毫秒每刻) 监控配置
 mspt:
@@ -44,13 +44,13 @@ mspt:
 entity:
   enabled: true
   interval: 80  # 检测间隔，单位 Ticks
-  notification-limit: 200  # 区块内实体数量上限
+  notification-limit: 70  # 区块内实体数量上限
 
 # 掉落物数量监控配置
 item:
   enabled: true
   interval: 60  # 检测间隔，单位 Ticks
-  notification-limit: 100  # 区块内掉落物数量上限
+  notification-limit: 80  # 区块内掉落物数量上限
 
 # 冷却配置
 cooldown:
@@ -58,8 +58,10 @@ cooldown:
 
 # 通知配置
 notification:
-  broadcast: true  # 是否向全服通知
+  broadcast: false  # 是否向全服通知
   console: true  # 是否向控制台通知
+  discord: true # 发送通知至 discord
+  discord-webhook: "" # Discord webhook 网址
   show-coordinates: true  # 是否显示坐标范围
 
 # 消息配置
@@ -93,4 +95,19 @@ messages:
     enabled_message: "§a[ChunkMonitor] Plugin enabled"
     server_type_message: "§6Server Type: %type%"
     disabled_message: "§c[ChunkMonitor] Plugin disabled"
+
+  ru_RU:
+    # Оповещающее сообщение МСЗТ
+    mspt_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cМСЗТ: %value% мс §r(Лимит: %limit% мс)"
+
+    # Оповещающее сообщение Количество Сущностей
+    entity_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cЧисло сущностей: %value% §r(Лимит: %limit%)"
+
+    # Оповещающее сообщение Выкинутые Предметы
+    item_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cВыкинутых предметов: %value% §r(Лимит: %limit%)"
+
+    # Сообщения включения/выключения
+    enabled_message: "[ChunkMonitor] Плагин включен"
+    server_type_message: "Тип сервера: %type%"
+    disabled_message: "[ChunkMonitor] Плагин выключен"
 ```
