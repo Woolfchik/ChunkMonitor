@@ -39,7 +39,7 @@ notification:
   console: true  # 是否向控制台通知 / Send notification to console / Отправлять оповещения в консоль
   discord: true # 发送通知至 discord / Send notification to discord / Отправлять оповещения в discord
   discord-webhook: "" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
-  show-coordinates: true  # 是否显示坐标范围 / Show coordinate range / Показывать "разброс координат"
+  show-coordinates: true  # 是否显示坐标范围 / Show coordinate range / Показывать диапазон координат
 
 # 消息配置 / Message Configuration / Настройка сообщений
 messages:
