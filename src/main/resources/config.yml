@@ -38,7 +38,7 @@ notification:
   broadcast: true  # 是否向全服通知 / Send notification to all players / Отправлять оповещения всем игрокам
   console: true  # 是否向控制台通知 / Send notification to console / Отправлять оповещения в консоль
   discord: true # 发送通知至 discord / Send notification to discord / Отправлять оповещения в discord
-  discord-webhook: "https://discord.com/api/webhooks/1481913407698374749/2iESyQ5EnWW9KEVl1lPewjDji38LOApDPlsr9P5nuEdPz3h8fDBIEUi9nbAbFJN5vgeq" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
+  discord-webhook: "" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
   discord-max-attempts: 3 # 通知发送尝试次数 / Number of attempts to send a notification / Количество попыток отправки уведомления
   show-coordinates: true  # 是否显示坐标范围 / Show coordinate range / Показывать диапазон координат
 
