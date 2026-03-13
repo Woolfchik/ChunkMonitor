@@ -1,26 +1,30 @@
 package cn.kurt6.chunkmonitor;
 
+import cn.kurt6.chunkmonitor.integration.discord.WebhookClient;
+import cn.kurt6.chunkmonitor.integration.discord.message.builders.WebhookEmbedBuilder;
+import cn.kurt6.chunkmonitor.integration.discord.message.builders.WebhookMessageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ChunkMonitorPlugin extends JavaPlugin {
 
     private Map<String, Long> chunkCooldown = new ConcurrentHashMap<>();
     private ScheduledExecutorService scheduler;
     private boolean isFolia = false;
-    private String language = "zh_CN";
+    private String language = "en_US";
     private Map<String, Map<String, String>> messages = new ConcurrentHashMap<>();
+    private WebhookClient webhookClient;
 
     @Override
     public void onEnable() {
@@ -29,6 +33,12 @@ public class ChunkMonitorPlugin extends JavaPlugin {
         loadLanguage();
 
         scheduler = Executors.newScheduledThreadPool(3);
+
+        if(getConfig().getBoolean("notification.discord")) {
+            String webhookUrl = getConfig().getString("notification.discord-webhook");
+            int maxWebhookAttempts = getConfig().getInt("notification.discord-max-attempts");
+            webhookClient = new WebhookClient(this, maxWebhookAttempts, webhookUrl);
+        }
 
         String msg = getMessage("enabled_message");
         getLogger().info(msg);
@@ -65,7 +75,7 @@ public class ChunkMonitorPlugin extends JavaPlugin {
     }
 
     private void loadLanguage() {
-        language = getConfig().getString("language", "zh_CN");
+        language = getConfig().getString("language", "en_US");
         ConfigurationSection messageSection = getConfig().getConfigurationSection("messages." + language);
 
         if (messageSection != null) {
@@ -119,12 +129,12 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                             setCooldown(chunkKey);
                         }
                     } catch (Exception e) {
-                        // 静默处理
+                        // Silent processing
                     }
                 }
             }
         } catch (Exception e) {
-            getLogger().fine("MSPT检测异常");
+            getLogger().fine("MSPT detection anomaly");
         }
     }
 
@@ -146,7 +156,7 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            getLogger().fine("实体检测异常");
+            getLogger().fine("Entity detection anomaly");
         }
     }
 
@@ -174,7 +184,7 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            getLogger().fine("掉落物检测异常");
+            getLogger().fine("Dropped item detection anomaly");
         }
     }
 
@@ -220,7 +230,7 @@ public class ChunkMonitorPlugin extends JavaPlugin {
         int chunkX = chunk.getX();
         int chunkZ = chunk.getZ();
 
-        // 计算坐标范围 (每个区块16x16方块)
+        // Calculating coordinate range (each chunk 16×16 blocks)
         int coordMinX = chunkX * 16;
         int coordMaxX = coordMinX + 15;
         int coordMinZ = chunkZ * 16;
@@ -239,17 +249,32 @@ public class ChunkMonitorPlugin extends JavaPlugin {
 
         if (getConfig().getBoolean("notification.broadcast")) {
             try {
-                // 只发送给在线玩家，不输出到控制台
+                // Send only to online players, do not output to console
                 for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                     player.sendMessage(message);
                 }
             } catch (Exception e) {
-                getLogger().fine("广播失败");
+                getLogger().fine("Broadcast failed");
             }
         }
 
         if (getConfig().getBoolean("notification.console")) {
             getLogger().warning(message);
+        }
+
+        if (getConfig().getBoolean("notification.discord")) {
+            webhookClient.send(
+                    new WebhookMessageBuilder()
+                            .username("Chunk Manager")
+                            .addEmbeds(
+                                    new WebhookEmbedBuilder()
+                                            .color(0xF7E525)
+                                            .title("**WARNING!**")
+                                            .description(message)
+                                            .build()
+                            )
+                            .build()
+            );
         }
     }
 

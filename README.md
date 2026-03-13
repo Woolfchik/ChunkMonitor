@@ -65,43 +65,43 @@ notification:
 messages:
   zh_CN:
     # MSPT 通知消息
-    mspt_alert: "§c[区块监控] §e世界: %world% §r| §e区块: [%chunk_x%, %chunk_z%] §r| §e坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cMSPT: %value% ms §r(上限: %limit% ms)"
+    mspt_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | MSPT: %value% ms (上限: %limit% ms)"
 
     # 实体数量通知消息
-    entity_alert: "§c[区块监控] §e世界: %world% §r| §e区块: [%chunk_x%, %chunk_z%] §r| §e坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §c实体数量: %value% §r(上限: %limit%)"
+    entity_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | 实体数量: %value% (上限: %limit%)"
 
     # 掉落物通知消息
-    item_alert: "§c[区块监控] §e世界: %world% §r| §e区块: [%chunk_x%, %chunk_z%] §r| §e坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §c掉落物: %value% §r(上限: %limit%)"
+    item_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | 掉落物: %value% (上限: %limit%)"
 
     # 启用消息
-    enabled_message: "§a[区块监控] 插件已加载"
-    server_type_message: "§6服务器类型: %type%"
-    disabled_message: "§c[区块监控] 插件已卸载"
+    enabled_message: "[区块监控] 插件已加载"
+    server_type_message: "服务器类型: %type%"
+    disabled_message: "[区块监控] 插件已卸载"
 
   en_US:
     # MSPT Alert Message
-    mspt_alert: "§c[ChunkMonitor] §eWorld: %world% §r| §eChunk: [%chunk_x%, %chunk_z%] §r| §eCoordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cMSPT: %value% ms §r(Limit: %limit% ms)"
+    mspt_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | MSPT: %value% ms (Limit: %limit% ms)"
 
     # Entity Count Alert Message
-    entity_alert: "§c[ChunkMonitor] §eWorld: %world% §r| §eChunk: [%chunk_x%, %chunk_z%] §r| §eCoordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cEntity Count: %value% §r(Limit: %limit%)"
+    entity_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Entity Count: %value% (Limit: %limit%)"
 
     # Item Drop Alert Message
-    item_alert: "§c[ChunkMonitor] §eWorld: %world% §r| §eChunk: [%chunk_x%, %chunk_z%] §r| §eCoordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cItem Drops: %value% §r(Limit: %limit%)"
+    item_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Item Drops: %value% (Limit: %limit%)"
 
     # Enable Message
-    enabled_message: "§a[ChunkMonitor] Plugin enabled"
-    server_type_message: "§6Server Type: %type%"
-    disabled_message: "§c[ChunkMonitor] Plugin disabled"
+    enabled_message: "[ChunkMonitor] Plugin enabled"
+    server_type_message: "Server Type: %type%"
+    disabled_message: "[ChunkMonitor] Plugin disabled"
 
   ru_RU:
     # Оповещающее сообщение МСЗТ
-    mspt_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cМСЗТ: %value% мс §r(Лимит: %limit% мс)"
+    mspt_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | МСЗТ: %value% мс (Лимит: %limit% мс)"
 
     # Оповещающее сообщение Количество Сущностей
-    entity_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cЧисло сущностей: %value% §r(Лимит: %limit%)"
+    entity_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Число сущностей: %value% (Лимит: %limit%)"
 
     # Оповещающее сообщение Выкинутые Предметы
-    item_alert: "§c[ChunkMonitor] §eМир: %world% §r| §eЧанк: [%chunk_x%, %chunk_z%] §r| §eКоординаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] §r| §cВыкинутых предметов: %value% §r(Лимит: %limit%)"
+    item_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Выкинутых предметов: %value% (Лимит: %limit%)"
 
     # Сообщения включения/выключения
     enabled_message: "[ChunkMonitor] Плагин включен"
