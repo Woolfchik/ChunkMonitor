@@ -16,7 +16,7 @@ A Minecraft server block MSPT usage, dropped items, and entity monitoring plugin
 
 ### Notification System
 
-- **Dual-Channel Notifications** - Support for independent control of in-game chat notifications, console notifications and Discord notification thru webhook.
+- **Multi-Channel Notifications** - Support for independent control of in-game chat notifications, console notifications and Discord notifications via webhook
 - **Cooldown Mechanism** - Only notify once per chunk within 5 minutes, preventing spam
 - **Precise Localization** - Displays world name, chunk coordinates, and specific block coordinate ranges
 - **Multi-Language Support** - Built-in Chinese, English and Russian, customizable message templates
