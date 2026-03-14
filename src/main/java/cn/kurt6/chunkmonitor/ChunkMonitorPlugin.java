@@ -12,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -81,7 +82,7 @@ public class ChunkMonitorPlugin extends JavaPlugin {
 
         if (messageSection != null) {
             Map<String, String> langMessages = new ConcurrentHashMap<>();
-            for (String key : messageSection.getKeys(false)) {
+            for (String key : messageSection.getKeys(true)) {
                 langMessages.put(key, messageSection.getString(key, ""));
             }
             messages.put(language, langMessages);
@@ -126,7 +127,9 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                     try {
                         double mspt = calculateChunkLoad(chunk);
                         if (mspt > limit) {
-                            notifyChunk(chunk, "mspt_alert", String.format("%.2f", mspt), limit);
+                            getServer().getScheduler().runTaskAsynchronously(this,
+                                    () -> notifyChunk(chunk, "mspt_alert", String.format("%.2f", mspt), limit)
+                            );
                             setCooldown(chunkKey);
                         }
                     } catch (Exception e) {
@@ -151,7 +154,9 @@ public class ChunkMonitorPlugin extends JavaPlugin {
 
                     int entityCount = chunk.getEntities().length;
                     if (entityCount > limit) {
-                        notifyChunk(chunk, "entity_alert", entityCount, limit);
+                        getServer().getScheduler().runTaskAsynchronously(this,
+                                () -> notifyChunk(chunk, "entity_alert", entityCount, limit)
+                        );
                         setCooldown(chunkKey);
                     }
                 }
@@ -171,15 +176,14 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                     String chunkKey = getChunkKey(chunk);
                     if (isInCooldown(chunkKey)) continue;
 
-                    long itemCount = 0;
-                    for (Entity entity : chunk.getEntities()) {
-                        if (entity instanceof Item) {
-                            itemCount++;
-                        }
-                    }
+                    long itemCount = Arrays.stream(chunk.getEntities())
+                            .filter(entity -> entity instanceof Item)
+                            .count();
 
                     if (itemCount > limit) {
-                        notifyChunk(chunk, "item_alert", itemCount, limit);
+                        getServer().getScheduler().runTaskAsynchronously(this,
+                                () -> notifyChunk(chunk, "item_alert", itemCount, limit)
+                        );
                         setCooldown(chunkKey);
                     }
                 }
@@ -225,7 +229,9 @@ public class ChunkMonitorPlugin extends JavaPlugin {
     }
 
     private void notifyChunk(Chunk chunk, String messageKey, Object value, Object limit) {
-        String template = getMessage(messageKey);
+        if(!shouldSend()) {
+            return;
+        }
 
         String world = chunk.getWorld().getName();
         int chunkX = chunk.getX();
@@ -237,16 +243,29 @@ public class ChunkMonitorPlugin extends JavaPlugin {
         int coordMinZ = chunkZ * 16;
         int coordMaxZ = coordMinZ + 15;
 
-        String message = template
-                .replace("%world%", world)
-                .replace("%chunk_x%", String.valueOf(chunkX))
-                .replace("%chunk_z%", String.valueOf(chunkZ))
-                .replace("%coord_min_x%", String.valueOf(coordMinX))
-                .replace("%coord_max_x%", String.valueOf(coordMaxX))
-                .replace("%coord_min_z%", String.valueOf(coordMinZ))
-                .replace("%coord_max_z%", String.valueOf(coordMaxZ))
-                .replace("%value%", String.valueOf(value))
-                .replace("%limit%", String.valueOf(limit));
+        var chunkCoords = "[" + chunkX + ", " + chunkZ + "]";
+        var coords = "X [" + coordMinX + " - " + coordMaxX + "], Z [" + coordMinZ + " - " + coordMaxZ + "]";
+
+        var worldTranslation = getMessage("world");
+        var chunkTranslation = getMessage("chunk");
+        var coordsTranslation = getMessage("coordinates");
+        var valueTranslation = getMessage("value");
+        var limitTranslation = getMessage("limit");
+
+        String message = "";
+        if(getConfig().getBoolean("notification.broadcast") || getConfig().getBoolean("notification.console")) {
+            message = "[" + getMessage("sender") + "] " +
+                    worldTranslation +
+                    ": " +
+                    world +
+                    " | " +
+                    chunkTranslation +
+                    ": " + chunkCoords + " | " +
+                    coordsTranslation +
+                    ": " + coords + " | " +
+                    getMessage(messageKey) +
+                    ": " + value + " (" + limitTranslation + ": " + limit + ")";
+        }
 
         if (getConfig().getBoolean("notification.broadcast")) {
             try {
@@ -270,21 +289,35 @@ public class ChunkMonitorPlugin extends JavaPlugin {
                             .avatarUrl(getConfig().getString("discord.bot.avatar-url"))
                             .addEmbeds(
                                     new WebhookEmbedBuilder()
-                                            .color(getConfig().getInt("discord.embed.color"))
+                                            .color(getEmbedColor())
                                             .title(getConfig().getString("discord.embed.title"))
-                                            .description("Type: " + messageKey)
+                                            .description(getMessage("notification.type") + ": " + getMessage("notification." + messageKey))
                                             .addFields(
-                                                    new EmbedField("World", world),
-                                                    new EmbedField("Chunk", "[" + chunkX + " : " + chunkZ + "]"),
-                                                    new EmbedField("Coordinates", "x: [" + coordMinX + " ~ " + coordMaxX + "], z: [" + coordMinZ + " ~ " + coordMaxZ + "]"),
-                                                    new EmbedField("Value", String.valueOf(value)),
-                                                    new EmbedField("Limit", String.valueOf(limit))
+                                                    new EmbedField(worldTranslation, world),
+                                                    new EmbedField(chunkTranslation, chunkCoords),
+                                                    new EmbedField(coordsTranslation, coords),
+                                                    new EmbedField(valueTranslation, String.valueOf(value)),
+                                                    new EmbedField(limitTranslation, String.valueOf(limit))
                                             )
                                             .build()
                             )
                             .build()
             );
         }
+    }
+
+    private int getEmbedColor() {
+        String color = getConfig().getString("discord.embed.color");
+        if(color == null || color.isBlank())
+            return 0xF7E525;
+
+        return Integer.decode(color);
+    }
+
+    private boolean shouldSend() {
+        return getConfig().getBoolean("notification.broadcast")
+                || getConfig().getBoolean("notification.console")
+                || getConfig().getBoolean("notification.discord");
     }
 
     @Override

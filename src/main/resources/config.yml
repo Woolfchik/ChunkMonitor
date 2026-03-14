@@ -14,20 +14,20 @@ language: "en_US"
 # MSPT (毫秒每刻) 监控配置 / MSPT Monitoring Configuration / Настройка монитора MSPT (Миллисекунд за тик)
 mspt:
   enabled: true
-  interval: 100  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 50.0  # 通知上限，单位毫秒 / Notification limit in milliseconds / Лимит миллисекунд
+  interval: 100 # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
+  notification-limit: 65.0 # 通知上限，单位毫秒 / Notification limit in milliseconds / Лимит миллисекунд
 
 # 实体数量监控配置 / Entity Count Monitoring Configuration / Настройка монитора Числа Сущностей
 entity:
   enabled: true
-  interval: 80  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 70  # 区块内实体数量上限 / Entity count limit per chunk / Лимит числа сущностей на чанк
+  interval: 80 # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
+  notification-limit: 75 # 区块内实体数量上限 / Entity count limit per chunk / Лимит числа сущностей на чанк
 
 # 掉落物数量监控配置 / Item Drop Monitoring Configuration / Настройка монитора Лежащих предметов
 item:
   enabled: true
   interval: 60  # 检测间隔，单位 Ticks / Detection interval in Ticks / Интервал обнаружения в тиках
-  notification-limit: 80  # 区块内掉落物数量上限 / Item drop count limit per chunk / Лимит валяющихся предметов на чанк
+  notification-limit: 65 # 区块内掉落物数量上限 / Item drop count limit per chunk / Лимит валяющихся предметов на чанк
 
 # 冷却配置 / Cooldown Configuration / Настройка задержки
 cooldown:
@@ -35,65 +35,109 @@ cooldown:
 
 # 通知配置 / Notification Configuration / Настройка оповещений
 notification:
-  broadcast: true  # 是否向全服通知 / Send notification to all players / Отправлять оповещения всем игрокам
-  console: true  # 是否向控制台通知 / Send notification to console / Отправлять оповещения в консоль
+  broadcast: true # 是否向全服通知 / Send notification to all players / Отправлять оповещения всем игрокам
+  console: true # 是否向控制台通知 / Send notification to console / Отправлять оповещения в консоль
   discord: true # 发送通知至 discord / Send notification to discord / Отправлять оповещения в discord
-  show-coordinates: true  # 是否显示坐标范围 / Show coordinate range / Показывать диапазон координат
 
 # Discord 配置 / Discord configuration / Настройки Discord
 discord:
-  webhook: "https://discord.com/api/webhooks/1482286808296587343/KxVqfYAp6S8Cw_CNT-UgbhzaqwUY327XlIfeZdCChLqXRFl5Hy7EUjZVsSEx7aJYJvsn" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
+  webhook: "" # Discord webhook 网址 / Discord webhook url / Ссылка на Discord webhook
   max-attempts: 3 # 通知发送尝试次数 / Number of attempts to send a notification / Количество попыток отправки уведомления
   bot:
     username: "Chunk Monitor" # 机器人显示名称 / Username to show as a bot name / Отображаемое имя бота
     avatar-url: "" # 机器人头像 URL / Bot avatar URL / Ссылка на аватар бота
   embed:
-    color: 50FF8D # 嵌入颜色 / Embed color / Цвет эмбеда
+    color: "0xF7E525" # 嵌入颜色 / Embed color / Цвет эмбеда
     title: "**WARNING!**" # 消息标题 / Title of the message / Заголовок сообщения
 
 # 消息配置 / Message Configuration / Настройка сообщений
 messages:
   zh_CN:
+    # 通知数据
+    sender: "区块监控"
+    world: "世界"
+    chunk: "区块"
+    coordinates: "坐标范围"
+    value: "价值"
+    limit: "上限"
+
     # MSPT 通知消息
-    mspt_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | MSPT: %value% ms (上限: %limit% ms)"
+    mspt_alert: "MSPT"
 
     # 实体数量通知消息
-    entity_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | 实体数量: %value% (上限: %limit%)"
+    entity_alert: "实体数量"
 
     # 掉落物通知消息
-    item_alert: "[区块监控] 世界: %world% | 区块: [%chunk_x%, %chunk_z%] | 坐标范围: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | 掉落物: %value% (上限: %limit%)"
+    item_alert: "掉落物"
 
     # 启用消息
     enabled_message: "[区块监控] 插件已加载"
     server_type_message: "服务器类型: %type%"
     disabled_message: "[区块监控] 插件已卸载"
 
+    # Discord 消息的字段
+    notification:
+      type: "类型"
+      mspt_alert: "MSPT 警报"
+      entity_alert: "实体警报"
+      item_alert: "物品警报"
+
   en_US:
+    # Notification data
+    sender: "Chunk Monitor"
+    world: "World"
+    chunk: "Chunk"
+    coordinates: "Coordinates"
+    value: "Value"
+    limit: "Limit"
+
     # MSPT Alert Message
-    mspt_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | MSPT: %value% ms (Limit: %limit% ms)"
+    mspt_alert: "MSPT"
 
     # Entity Count Alert Message
-    entity_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Entity Count: %value% (Limit: %limit%)"
+    entity_alert: "Entity Count"
 
     # Item Drop Alert Message
-    item_alert: "[ChunkMonitor] World: %world% | Chunk: [%chunk_x%, %chunk_z%] | Coordinates: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Item Drops: %value% (Limit: %limit%)"
+    item_alert: "Item Drops"
 
-    # Enable Message
-    enabled_message: "[ChunkMonitor] Plugin enabled"
+    # Enable messages
+    enabled_message: "[Chunk Monitor] Plugin enabled"
     server_type_message: "Server Type: %type%"
-    disabled_message: "[ChunkMonitor] Plugin disabled"
+    disabled_message: "[Chunk Monitor] Plugin disabled"
+
+    # Fields for Discord message
+    notification:
+      type: "Type"
+      mspt_alert: "MSPT Alert"
+      entity_alert: "Entity Alert"
+      item_alert: "Item Alert"
 
   ru_RU:
+    # Данные для оповещения
+    sender: "Chunk Monitor"
+    world: "Мир"
+    chunk: "Чанк"
+    coordinates: "Координаты"
+    value: "Значение"
+    limit: "Лимит"
+
     # Оповещающее сообщение MSPT
-    mspt_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | МСЗТ: %value% мс (Лимит: %limit% мс)"
+    mspt_alert: "MSPT"
 
     # Оповещающее сообщение Количество Сущностей
-    entity_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Число сущностей: %value% (Лимит: %limit%)"
+    entity_alert: "Число сущностей"
 
     # Оповещающее сообщение Выкинутые Предметы
-    item_alert: "[ChunkMonitor] Мир: %world% | Чанк: [%chunk_x%, %chunk_z%] | Координаты: X [%coord_min_x% ~ %coord_max_x%] Z [%coord_min_z% ~ %coord_max_z%] | Выкинутых предметов: %value% (Лимит: %limit%)"
+    item_alert: "Выкинутых предметов"
 
     # Сообщения включения/выключения
     enabled_message: "[ChunkMonitor] Плагин включен"
     server_type_message: "Тип сервера: %type%"
     disabled_message: "[ChunkMonitor] Плагин выключен"
+
+    # Поля для Discord сообщения
+    notification:
+      type: "Тип"
+      mspt_alert: "Оповещение о MSPT"
+      entity_alert: "Оповещение о сущностях"
+      item_alert: "Оповещение о предметах"
