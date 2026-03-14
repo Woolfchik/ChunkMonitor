@@ -1,6 +1,7 @@
 package cn.kurt6.chunkmonitor;
 
 import cn.kurt6.chunkmonitor.integration.discord.WebhookClient;
+import cn.kurt6.chunkmonitor.integration.discord.message.WebhookEmbed.EmbedField;
 import cn.kurt6.chunkmonitor.integration.discord.message.builders.WebhookEmbedBuilder;
 import cn.kurt6.chunkmonitor.integration.discord.message.builders.WebhookMessageBuilder;
 import org.bukkit.Bukkit;
@@ -35,8 +36,8 @@ public class ChunkMonitorPlugin extends JavaPlugin {
         scheduler = Executors.newScheduledThreadPool(3);
 
         if(getConfig().getBoolean("notification.discord")) {
-            String webhookUrl = getConfig().getString("notification.discord-webhook");
-            int maxWebhookAttempts = getConfig().getInt("notification.discord-max-attempts");
+            String webhookUrl = getConfig().getString("discord.webhook");
+            int maxWebhookAttempts = getConfig().getInt("discord.max-attempts");
             webhookClient = new WebhookClient(this, maxWebhookAttempts, webhookUrl);
         }
 
@@ -265,12 +266,20 @@ public class ChunkMonitorPlugin extends JavaPlugin {
         if (getConfig().getBoolean("notification.discord")) {
             webhookClient.send(
                     new WebhookMessageBuilder()
-                            .username("Chunk Manager")
+                            .username(getConfig().getString("discord.bot.username"))
+                            .avatarUrl(getConfig().getString("discord.bot.avatar-url"))
                             .addEmbeds(
                                     new WebhookEmbedBuilder()
-                                            .color(0xF7E525)
-                                            .title("**WARNING!**")
-                                            .description(message)
+                                            .color(getConfig().getInt("discord.embed.color"))
+                                            .title(getConfig().getString("discord.embed.title"))
+                                            .description("Type: " + messageKey)
+                                            .addFields(
+                                                    new EmbedField("World", world),
+                                                    new EmbedField("Chunk", "[" + chunkX + " : " + chunkZ + "]"),
+                                                    new EmbedField("Coordinates", "x: [" + coordMinX + " ~ " + coordMaxX + "], z: [" + coordMinZ + " ~ " + coordMaxZ + "]"),
+                                                    new EmbedField("Value", String.valueOf(value)),
+                                                    new EmbedField("Limit", String.valueOf(limit))
+                                            )
                                             .build()
                             )
                             .build()
