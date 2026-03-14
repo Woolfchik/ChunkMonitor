@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.kurt6</groupId>
-    <artifactId>chunkmonitor</artifactId>
-    <version>1.0.0</version>
+    <artifactId>ChunkMonitor</artifactId>
+    <version>1.21.11-1.0</version>
     <packaging>jar</packaging>
 
     <name>chunkmonitor</name>
