@@ -271,7 +271,9 @@ public class ChunkMonitorPlugin extends JavaPlugin {
             try {
                 // Send only to online players, do not output to console
                 for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(message);
+                    if(player.hasPermission("chunkmonitor.admin")) {
+                        player.sendMessage(message);
+                    }
                 }
             } catch (Exception e) {
                 getLogger().fine("Broadcast failed");
